@@ -1,9 +1,15 @@
 %h1 CAMPHOR-feeds
 
-- @entries.each do |entry|
-  .entry{style: 'border: solid 1px;'}
-    %p
-      %a{href: entry.entry_url}
-        = entry.title
-    %p
-      = entry.abstract[0..100]
+.row
+  - @entries.each do |entry|
+    .col-sm-4
+      .card.text-center{style: 'margin: 5px;'}
+        .card-body
+          %h5.card-title
+            %a{href: entry.entry_url}
+              = entry.title
+          %p.card-text
+            = entry.abstract[0..100]
+          %p.card-text
+            %small.text-muted
+              = entry.published_at
