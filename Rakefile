@@ -1,3 +1,5 @@
+$LOAD_PATH << File.dirname(File.expand_path(__FILE__)) + '/lib'
+
 namespace :db do
   desc "Run migrations"
   task :migrate, [:version] do |t, args|
@@ -14,9 +16,16 @@ namespace :db do
   end
 end
 
-
 namespace :source do
   task :add do |args|
-    
+    require 'table'
+
+    _, feed_url = ARGV
+
+    Table::SourceFeed.insert(feed_url: feed_url)
+
+    puts "Added source: #{feed_url}"
+
+    exit
   end
 end
