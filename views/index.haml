@@ -1,0 +1,9 @@
+%h1 CAMPHOR-feeds
+
+- @entries.each do |entry|
+  .entry{style: 'border: solid 1px;'}
+    %p
+      %a{href: entry.entry_url}
+        = entry.title
+    %p
+      = entry.abstract[0..100]

@@ -40,7 +40,7 @@ namespace :source do
           entry_url: entry.entry_url, 
           title: entry.title,
           abstract: entry.abstract,
-          media_url: entry.media_url
+          published_at: entry.published_at
         )
       end
     end
