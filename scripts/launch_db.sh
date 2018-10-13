@@ -1,0 +1,1 @@
+docker run --rm -v /var/lib/postgresql/data -e POSTGRES_USER=feeds -e POSTGRES_PASSWORD=feeds -p 5432:5432 --name feeds-postgres -d postgres:10-alpine
