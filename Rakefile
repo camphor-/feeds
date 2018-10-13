@@ -28,4 +28,21 @@ namespace :source do
 
     exit
   end
+
+  task :crawl do
+    require 'table'
+    require 'crawl'
+
+    Table::SourceFeed.each do |sf|
+      Crawl.new(sf.feed_url).crawl do |entry|
+        Table::Entry.dataset.insert_conflict.insert(
+          source_feed_id: sf.source_feed_id,
+          entry_url: entry.entry_url, 
+          title: entry.title,
+          abstract: entry.abstract,
+          media_url: entry.media_url
+        )
+      end
+    end
+  end
 end
