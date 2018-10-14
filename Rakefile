@@ -6,20 +6,41 @@ if ENV['APP_ENV'].nil? || ENV['APP_ENV'] == 'development'
 end
 
 namespace :db do
-  desc "Run migrations"
-  task :migrate, [:version] do |t, args|
-    require 'sequel/core'
-    require 'logger'
+  require 'sequel/core'
+  require 'logger'
+  Sequel.extension :migration
+  DB = Sequel.connect(ENV.fetch("DATABASE_URL"))
 
-    Sequel.extension :migration
-    version = args[:version].to_i if args[:version]
-    Sequel.connect(ENV.fetch("DATABASE_URL"), logger: Logger.new($stderr)) do |db|
-      Sequel::Migrator.run(db, "db/migrations", target: version)
-    end
+  desc "Prints current schema version"
+  task :version do
+    version = if DB.tables.include?(:schema_info)
+      DB[:schema_info].first[:version]
+    end || 0
+
+    puts "Schema Version: #{version}"
+  end
+
+  desc "Run migrations"
+  task :migrate do
+    Sequel::Migrator.run(DB, "db/migrations")
+    Rake::Task["db:version"].execute
+  end
+
+  desc "Rollback to specified version"
+  task :rollback, :target do |t, args|
+    target = ARGV[1]
+
+    raise 'Specify migration version!' unless target
+
+    Sequel::Migrator.run(DB, "db/migrations", target: target.to_i)
+    Rake::Task["db:version"].execute
+
+    exit
   end
 end
 
 namespace :source do
+  desc "Register source feed"
   task :add do |args|
     require 'table'
 
@@ -32,6 +53,7 @@ namespace :source do
     exit
   end
 
+  desc "Crawl registered source feed"
   task :crawl do
     require 'table'
     require 'crawl'
