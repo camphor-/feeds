@@ -9,7 +9,7 @@ module Updater
       crawled_source_feed = Crawler.new(source_feed.feed_url).crawl
 
       source_feed.update(title: crawled_source_feed.title, blog_url: crawled_source_feed.blog_url)
-      Table::Entry.insert_conflict.multi_insert(
+      Table::Entry.dataset.insert_conflict.multi_insert(
         crawled_source_feed.entries.map do |entry|
           {
             source_feed_id: source_feed.source_feed_id,
