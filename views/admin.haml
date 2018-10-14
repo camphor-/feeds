@@ -1,0 +1,14 @@
+%h1.text-center CAMPHOR-feeds/admin
+
+%form{action: '/admin/source_feeds', method: 'POST', enctype: 'multipart/form-data'}
+  .form-group
+    %label{for: 'source-feed-url'}
+      Feed url (e.g. https://blog.camph.net/feed/)
+    %input.form-control{name: 'source_feed_url', id: 'source-feed-url'}
+  .form-group
+    %label{for: 'source-feed-icon'}
+      Feed icon image (jpg/png, max 5MB)
+    %input.form-control{type: 'file', id: 'source-feed-icon', name: 'source_feed_icon'}
+  .form-group
+    %button.btn.btn-primary{type: 'submit'}
+      送信

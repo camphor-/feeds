@@ -55,23 +55,14 @@ namespace :source do
 
   desc "Crawl registered source feed"
   task :crawl do
-    require 'table'
-    require 'crawl'
+    require 'entry_updater'
     require 'concurrent'
 
     pool = Concurrent::FixedThreadPool.new(5, auto_terminate: false)
 
     Table::SourceFeed.each do |sf|
       pool.post do
-        Crawl.new(sf.feed_url).crawl do |entry|
-          Table::Entry.dataset.insert_conflict.insert(
-            source_feed_id: sf.source_feed_id,
-            entry_url: entry.entry_url, 
-            title: entry.title,
-            abstract: entry.abstract,
-            published_at: entry.published_at
-          )
-        end
+        EntryUpdater.new(sf).run
       end
     end
 

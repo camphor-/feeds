@@ -2,7 +2,7 @@ require 'rss'
 require 'faraday'
 require 'faraday_middleware'
 
-class Crawl
+class Crawler
   Entry = Struct.new(:entry_url, :title, :abstract, :published_at)
 
   def initialize(feed_url)
