@@ -1,15 +1,20 @@
-%h1 CAMPHOR-feeds
+%h1.text-center CAMPHOR-feeds
 
 .row
   - @entries.each do |entry|
-    .col-sm-4
-      .card.text-center{style: 'margin: 5px;'}
-        .card-body
-          %h5.card-title
-            %a{href: entry.entry_url}
-              = entry.title
-          %p.card-text
-            = entry.abstract[0..100]
-          %p.card-text
-            %small.text-muted
-              = entry.published_at
+    .col-sm-12
+      .card.text-center.flex-row.flex-wrap{style: 'margin: 5px;'}
+        .row
+          .col-auto
+            %img{src: entry.icon_url, style: 'width: 200px;'}
+          .col
+            .card-body.px-2
+              %h5.card-title
+                %p
+                  %a{href: entry.entry_url}
+                    = entry.title
+                %p
+                  %small.text-muted
+                    = entry.published_at
+              %p.card-text.text-left
+                = entry.abstract[0..100]

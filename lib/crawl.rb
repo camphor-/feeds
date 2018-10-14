@@ -1,5 +1,6 @@
 require 'rss'
 require 'faraday'
+require 'faraday_middleware'
 
 class Crawl
   Entry = Struct.new(:entry_url, :title, :abstract, :published_at)
@@ -9,7 +10,19 @@ class Crawl
   end
 
   def crawl
-    xml_txt = Faraday.get(@feed_url).body
+    conn = Faraday.new(@feed_url) do |b|
+      b.use FaradayMiddleware::FollowRedirects
+      b.adapter :net_http do |http|
+        http.open_timeout = 2
+      end
+    end
+    response = conn.get
+
+    puts "status:#{response.status}\turl:#{@feed_url}"
+    if response.status != 200
+      return
+    end
+    xml_txt = response.body
     feed = RSS::Parser.parse(xml_txt)
 
     case feed
@@ -27,12 +40,12 @@ class Crawl
         yield Entry.new(
           item.link.href,
           item.title.content,
-          item.content.content,
+          item.summary.content,
           item.published.content
         )
       end
     else
-      raise "Unsupported feed type: #{feed.class}"
+      puts "Unsupported feed type: #{feed.class} from #{@feed_url}"
     end
   end
 end

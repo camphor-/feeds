@@ -20,9 +20,9 @@ namespace :source do
   task :add do |args|
     require 'table'
 
-    _, feed_url = ARGV
+    _, feed_url, icon_url = ARGV
 
-    Table::SourceFeed.insert(feed_url: feed_url)
+    Table::SourceFeed.insert(feed_url: feed_url, icon_url: icon_url)
 
     puts "Added source: #{feed_url}"
 
@@ -32,17 +32,25 @@ namespace :source do
   task :crawl do
     require 'table'
     require 'crawl'
+    require 'concurrent'
+
+    pool = Concurrent::FixedThreadPool.new(10, auto_terminate: false)
 
     Table::SourceFeed.each do |sf|
-      Crawl.new(sf.feed_url).crawl do |entry|
-        Table::Entry.dataset.insert_conflict.insert(
-          source_feed_id: sf.source_feed_id,
-          entry_url: entry.entry_url, 
-          title: entry.title,
-          abstract: entry.abstract,
-          published_at: entry.published_at
-        )
+      pool.post do
+        Crawl.new(sf.feed_url).crawl do |entry|
+          Table::Entry.dataset.insert_conflict.insert(
+            source_feed_id: sf.source_feed_id,
+            entry_url: entry.entry_url, 
+            title: entry.title,
+            abstract: entry.abstract,
+            published_at: entry.published_at
+          )
+        end
       end
     end
+
+    pool.shutdown
+    pool.wait_for_termination
   end
 end
