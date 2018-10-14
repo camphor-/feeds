@@ -1,13 +1,13 @@
 %h1.text-center CAMPHOR-feeds
 
-.row
+.row{style: 'margin-top: 25px;'}
   - @entries.each do |entry|
     .col-sm-12
       .card.text-center.flex-row.flex-wrap{style: 'margin: 5px;'}
         .row
-          .col-auto
-            %img{src: entry.icon_url, style: 'width: 200px;'}
-          .col
+          .col-lg-4.col-md-4.col-sm-4
+            %img.img-fluid{src: entry.icon_url, style: 'max-width: 100%; height: auto;'}
+          .col-lg-8.col-md-8.col-sm-8
             .card-body.px-2
               %h5.card-title
                 %p
@@ -18,3 +18,4 @@
                     = entry.published_at
               %p.card-text.text-left
                 = entry.abstract[0..100]
+}
