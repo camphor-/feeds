@@ -2,7 +2,7 @@ require 'nokogiri'
 
 module View
   class Entry
-    attr_reader :entry_url, :title, :published_at
+    attr_reader :entry_url, :title
 
     def initialize(entry_url, title, abstract_html, icon_url, published_at)
       @entry_url = entry_url
@@ -18,6 +18,10 @@ module View
 
     def icon_url
       @icon_url || ENV['DEFAULT_ENTRY_ICON_URL']
+    end
+
+    def published_at
+      @published_at.strftime('%Y-%m-%d %H:%M')
     end
   end
 
