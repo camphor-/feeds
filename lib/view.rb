@@ -20,4 +20,14 @@ module View
       @icon_url || ENV['DEFAULT_ENTRY_ICON_URL']
     end
   end
+
+  class SourceFeed
+    attr_reader :feed_id, :feed_url, :icon_url
+
+    def initialize(feed_id, feed_url, icon_url)
+      @feed_id = feed_id
+      @feed_url = feed_url
+      @icon_url = icon_url
+    end
+  end
 end

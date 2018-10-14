@@ -7,6 +7,7 @@ Sequel::Model.db = Sequel.connect(ENV.fetch("DATABASE_URL"))
 module Table
   class SourceFeed < Sequel::Model(:source_feeds)
     one_to_many :entries
+    plugin :association_dependencies, entries: :destroy
   end
 
   class Entry < Sequel::Model(:entries)

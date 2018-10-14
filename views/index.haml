@@ -2,7 +2,7 @@
 
 .row{style: 'margin-top: 25px;'}
   - @entries.each do |entry|
-    .col-sm-12
+    .col-12
       .card.text-center.flex-row.flex-wrap{style: 'margin: 5px;'}
         .row
           .col-lg-4.col-md-4.col-sm-4
@@ -18,4 +18,3 @@
                     = entry.published_at
               %p.card-text.text-left
                 = entry.abstract[0..100]
-}

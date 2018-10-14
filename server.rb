@@ -44,6 +44,10 @@ class AdminApp < Sinatra::Application
   end
 
   get '/admin' do
+    @feeds = Table::SourceFeed.map do |sf|
+      View::SourceFeed.new(sf.source_feed_id, sf.feed_url, sf.icon_url)
+    end
+
     haml :admin
   end
 
@@ -59,9 +63,17 @@ class AdminApp < Sinatra::Application
     end
 
     Thread.new do
-      sf = Table::SourceFeed.where(feed_url: feed_url).first
+      sf = Table::SourceFeed.find(feed_url: feed_url)
       EntryUpdater.new(sf).run
     end
+
+    redirect '/admin'
+  end
+
+  delete '/admin/source_feed/:source_feed_id' do
+    source_feed_id = params[:source_feed_id].to_i
+    source_feed = Table::SourceFeed.find(source_feed_id: source_feed_id)
+    source_feed.destroy
 
     redirect '/admin'
   end
