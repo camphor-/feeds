@@ -7,6 +7,14 @@
     %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}
     %link{rel: "icon", type: "image/x-icon", href: '/favicon.ico'}
 
+    %meta{:content => "CAMPHOR-feeds", :property => "og:title"}
+    %meta{:content => "website", :property => "og:type"}
+    %meta{:content => "https://#{ENV['SITE_DOMAIN']}/", :property => "og:url"}
+    %meta{:content => "https://#{ENV['SITE_DOMAIN']}/images/camphor.png", :property => "og:image"}
+    %meta{:content => "CAMPHOR-feeds", :property => "og:site_name"}
+    %meta{:content => "CAMPHOR-メンバーのブログ", :property => "og:description"}
+
+
   %body{style: 'margin-top: 25px;'}
     .container-fluid{style: 'max-width: 800px; margin: auto;'}
       != yield
