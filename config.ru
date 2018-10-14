@@ -1,3 +1,4 @@
 require './server'
 
-run App
+map('/') { run ViewerApp }
+map('/admin') { run AdminApp }
