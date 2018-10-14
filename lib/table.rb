@@ -11,4 +11,7 @@ module Table
   class Entry < Sequel::Model(:entries)
     many_to_one :source_feed
   end
+
+  class SourceFeedIcon < Sequel::Model(:source_feed_icons)
+  end
 end
