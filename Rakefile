@@ -1,12 +1,15 @@
 $LOAD_PATH << File.dirname(File.expand_path(__FILE__)) + '/lib'
 
+if ENV['APP_ENV'].nil? || ENV['APP_ENV'] == 'development'
+  require 'dotenv/load'
+  Dotenv.load('.env.development')
+end
+
 namespace :db do
   desc "Run migrations"
   task :migrate, [:version] do |t, args|
     require 'sequel/core'
-    require 'dotenv/load'
     require 'logger'
-    Dotenv.load('.env.development')
 
     Sequel.extension :migration
     version = args[:version].to_i if args[:version]
@@ -34,7 +37,7 @@ namespace :source do
     require 'crawl'
     require 'concurrent'
 
-    pool = Concurrent::FixedThreadPool.new(10, auto_terminate: false)
+    pool = Concurrent::FixedThreadPool.new(5, auto_terminate: false)
 
     Table::SourceFeed.each do |sf|
       pool.post do
