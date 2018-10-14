@@ -6,7 +6,7 @@ module Icon
     hash_value = OpenSSL::Digest::SHA256.hexdigest(binary_data)
     key = "#{hash_value}.#{file_ext}"
 
-    Table::SourceFeedIcon.insert(key: key, content: binary_data)
+    Table::SourceFeedIcon.insert(key: key, content: Sequel::SQL::Blob.new(binary_data))
 
     return key
   end

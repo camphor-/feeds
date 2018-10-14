@@ -16,3 +16,17 @@ get '/' do
 
   haml :index
 end
+
+ICON_CACHE_DIR = ENV['ICON_CACHE_DIR'] || '/tmp'
+get '/icons/:icon_key' do
+  cached_path = ICON_CACHE_DIR + '/' + params[:icon_key]
+
+  if !File.exists?(cached_path)
+    feed_icon = Table::SourceFeedIcon.where(key: params[:icon_key]).first
+    raise Sinatra::NotFound if feed_icon.nil?
+
+    File.write(cached_path, feed_icon.content)
+  end
+
+  send_file cached_path
+end
