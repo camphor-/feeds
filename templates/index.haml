@@ -17,7 +17,26 @@
 
   %body{style: 'margin-top: 25px;'}
     .container-fluid{style: 'max-width: 800px; margin: auto;'}
-      != yield
+      %h1.text-center CAMPHOR- feeds
+
+      .row{style: 'margin-top: 25px;'}
+        - entries.each do |entry|
+          .col-12
+            .card.text-center.flex-row.flex-wrap{style: 'margin: 5px;'}
+              .row
+                .col-lg-4.col-md-4.col-sm-4
+                  %img.img-fluid{src: entry.icon_url, style: 'max-width: 100%; height: auto;'}
+                .col-lg-8.col-md-8.col-sm-8
+                  .card-body.px-2
+                    %h5.card-title
+                      %p
+                        %a{href: entry.entry_url}
+                          = entry.title
+                      %p
+                        %small.text-muted
+                          = entry.published_at
+                    %p.card-text.text-left
+                      = entry.abstract[0..100]
 
     %script{:crossorigin => "anonymous", :integrity => "sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo", :src => "https://code.jquery.com/jquery-3.3.1.slim.min.js"}
     %script{:crossorigin => "anonymous", :integrity => "sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49", :src => "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"}

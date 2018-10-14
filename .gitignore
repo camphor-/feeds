@@ -1,3 +1,7 @@
 .bundle/
 vendor/
 .env.production
+dist/
+feeds.toml
+icons/*
+!icons/.keep

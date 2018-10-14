@@ -17,7 +17,7 @@ module View
     end
 
     def icon_url
-      @icon_url || ENV['DEFAULT_ENTRY_ICON_URL']
+      @icon_url
     end
 
     def published_at

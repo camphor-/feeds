@@ -1,72 +1,72 @@
 $LOAD_PATH << File.dirname(File.expand_path(__FILE__)) + '/lib'
 
-if ENV['APP_ENV'].nil? || ENV['APP_ENV'] == 'development'
-  require 'dotenv/load'
-  Dotenv.load('.env.development')
-end
+require 'toml-rb'
+require 'dotenv/load'
+require 'haml'
+require 'view'
+require 'fileutils'
+Dotenv.load('.env.development')
 
-namespace :db do
-  require 'sequel/core'
-  require 'logger'
-  Sequel.extension :migration
-  DB = Sequel.connect(ENV.fetch("DATABASE_URL"))
+FEEDS_TOML = File.join(File.dirname(__FILE__), 'feeds.toml').freeze
+OUTPUT_DIR = File.join(File.dirname(__FILE__), 'dist').freeze
+TEMPLATE_PATH = File.join(File.dirname(__FILE__), 'templates', 'index.haml').freeze
+ICON_DIR = File.join(File.dirname(__FILE__), 'icons').freeze
+ENTRY_COUNT = 50.freeze
 
-  desc "Prints current schema version"
-  task :version do
-    version = if DB.tables.include?(:schema_info)
-      DB[:schema_info].first[:version]
-    end || 0
+Entry = Struct.new(:entry_url, :icon_filename, :title, :abstract, :published_at)
 
-    puts "Schema Version: #{version}"
-  end
+desc "Crawl registered source feed"
+task :crawl do
+  require 'crawler'
+  require 'concurrent'
 
-  desc "Run migrations"
-  task :migrate do
-    Sequel::Migrator.run(DB, "db/migrations")
-    Rake::Task["db:version"].execute
-  end
+  entries = Queue.new
 
-  desc "Rollback to specified version"
-  task :rollback, :target do |t, args|
-    target = ARGV[1]
-
-    raise 'Specify migration version!' unless target
-
-    Sequel::Migrator.run(DB, "db/migrations", target: target.to_i)
-    Rake::Task["db:version"].execute
-
-    exit
-  end
-end
-
-namespace :source do
-  desc "Register source feed"
-  task :add do |args|
-    require 'table'
-
-    _, feed_url, icon_url = ARGV
-
-    Table::SourceFeed.insert(feed_url: feed_url, icon_url: icon_url)
-
-    puts "Added source: #{feed_url}"
-
-    exit
-  end
-
-  desc "Crawl registered source feed"
-  task :crawl do
-    require 'updater/source_feed'
-    require 'concurrent'
-
-    pool = Concurrent::FixedThreadPool.new(4, auto_terminate: false)
-
-    Table::SourceFeed.each do |sf|
-      pool.post do
-        Updater::SourceFeed.update(sf)
+  pool = Concurrent::FixedThreadPool.new(10, auto_terminate: false)
+  feeds = TomlRB.load_file(FEEDS_TOML, symbolize_keys: true)
+  feeds.each do |username, feed|
+    pool.post do
+      Crawler.new(feed[:feed_url]).crawl.each do |crawled_entry|
+        entry = Entry.new(
+          crawled_entry.entry_url,
+          feed[:icon_filename],
+          crawled_entry.title,
+          crawled_entry.abstract,
+          crawled_entry.published_at
+        )
+        entries.push(entry)
       end
     end
-
-    pool.shutdown
-    pool.wait_for_termination
   end
+
+  pool.shutdown
+  pool.wait_for_termination
+  entries = Array.new(entries.size) { entries.pop }
+
+  # output
+  FileUtils.rm_r(OUTPUT_DIR)
+  Dir.mkdir(OUTPUT_DIR)
+
+  # HTML
+  entries = entries.sort_by(&:published_at).reverse.first(ENTRY_COUNT)
+  entries_view_obj = entries.map do |e|
+    View::Entry.new(
+      e.entry_url,
+      e.title,
+      e.abstract,
+      "/icons/#{e.icon_filename}",
+      e.published_at
+    )
+  end
+
+  result = Haml::Engine.new(File.read(TEMPLATE_PATH)).render(Object.new, entries: entries_view_obj)
+  output_path = File.join(OUTPUT_DIR, 'index.html')
+  File.write(output_path, result)
+
+  # icons
+  icon_dir = File.join(OUTPUT_DIR, 'icons')
+  Dir.mkdir(icon_dir)
+  source_paths = entries.map(&:icon_filename).uniq!
+                     .map { |filename| File.join(ICON_DIR, filename) }
+  FileUtils.cp(source_paths, icon_dir)
 end
