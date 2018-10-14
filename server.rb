@@ -8,7 +8,7 @@ end
 require 'sinatra/base'
 require 'table'
 require 'view'
-require 'entry_updater'
+require 'updater/entry'
 
 class ViewerApp < Sinatra::Application
   get '/' do
@@ -64,7 +64,7 @@ class AdminApp < Sinatra::Application
 
     Thread.new do
       sf = Table::SourceFeed.find(feed_url: feed_url)
-      EntryUpdater.new(sf).run
+      Updater::Entry.update(sf)
     end
 
     redirect '/admin'

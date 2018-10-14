@@ -55,14 +55,14 @@ namespace :source do
 
   desc "Crawl registered source feed"
   task :crawl do
-    require 'entry_updater'
+    require 'updater/entry'
     require 'concurrent'
 
     pool = Concurrent::FixedThreadPool.new(5, auto_terminate: false)
 
     Table::SourceFeed.each do |sf|
       pool.post do
-        EntryUpdater.new(sf).run
+        Updater::Entry.update(sf)
       end
     end
 
