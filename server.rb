@@ -43,7 +43,7 @@ class AdminApp < Sinatra::Application
     username == ENV.fetch('ADMIN_USERNAME') && password == ENV.fetch('ADMIN_PASSWORD')
   end
 
-  get '/admin' do
+  get '/' do
     @feeds = Table::SourceFeed.map do |sf|
       View::SourceFeed.new(sf.source_feed_id, sf.title, sf.feed_url, sf.icon_url, sf.blog_url)
     end
@@ -51,7 +51,7 @@ class AdminApp < Sinatra::Application
     haml :admin
   end
 
-  post '/admin/source_feeds' do
+  post '/source_feeds' do
     file_ext  = File.extname(params[:source_feed_icon][:filename])
     icon_file = params[:source_feed_icon][:tempfile]
     feed_url  = params[:source_feed_url]
@@ -70,7 +70,7 @@ class AdminApp < Sinatra::Application
     redirect '/admin'
   end
 
-  delete '/admin/source_feed/:source_feed_id' do
+  delete '/source_feed/:source_feed_id' do
     source_feed_id = params[:source_feed_id].to_i
     source_feed = Table::SourceFeed.find(source_feed_id: source_feed_id)
     source_feed.destroy
@@ -79,7 +79,3 @@ class AdminApp < Sinatra::Application
   end
 end
 
-class App < Sinatra::Application
-  use ViewerApp
-  use AdminApp
-end
