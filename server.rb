@@ -64,7 +64,7 @@ class AdminApp < Sinatra::Application
 
     Thread.new do
       sf = Table::SourceFeed.find(feed_url: feed_url)
-      Updater::Entry.update(sf)
+      Updater::SourceFeed.update(sf)
     end
 
     redirect '/admin'
