@@ -8,6 +8,12 @@ module Table
   class SourceFeed < Sequel::Model(:source_feeds)
     one_to_many :entries
     plugin :association_dependencies, entries: :destroy
+
+    def self.upsert(feed_url, icon_url)
+      self.dataset
+          .insert_conflict(target: :feed_url, update: { icon_url: icon_url })
+          .insert(feed_url: feed_url, icon_url: icon_url)
+    end
   end
 
   class Entry < Sequel::Model(:entries)

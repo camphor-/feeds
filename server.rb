@@ -8,7 +8,7 @@ end
 require 'sinatra/base'
 require 'table'
 require 'view'
-require 'updater/entry'
+require 'updater/source_feed'
 
 class ViewerApp < Sinatra::Application
   get '/' do
@@ -45,7 +45,7 @@ class AdminApp < Sinatra::Application
 
   get '/admin' do
     @feeds = Table::SourceFeed.map do |sf|
-      View::SourceFeed.new(sf.source_feed_id, sf.feed_url, sf.icon_url)
+      View::SourceFeed.new(sf.source_feed_id, sf.title, sf.feed_url, sf.icon_url, sf.blog_url)
     end
 
     haml :admin
@@ -59,7 +59,7 @@ class AdminApp < Sinatra::Application
     Sequel::Model.db.transaction do
       icon_key = Table::SourceFeedIcon.insert_icon(icon_file, file_ext)
       icon_url = "/icons/#{icon_key}"
-      Table::SourceFeed.insert(feed_url: feed_url, icon_url: icon_url)
+      Table::SourceFeed.upsert(feed_url, icon_url)
     end
 
     Thread.new do

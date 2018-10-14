@@ -5,3 +5,4 @@ if ENV['APP_ENV'].nil? || ENV['APP_ENV'] == 'development'
   Dotenv.load('.env.development')
 end
 
+require 'table'

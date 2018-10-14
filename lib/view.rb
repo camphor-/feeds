@@ -22,12 +22,14 @@ module View
   end
 
   class SourceFeed
-    attr_reader :feed_id, :feed_url, :icon_url
+    attr_reader :feed_id, :title, :feed_url, :icon_url, :blog_url
 
-    def initialize(feed_id, feed_url, icon_url)
+    def initialize(feed_id, title, feed_url, icon_url, blog_url)
       @feed_id = feed_id
+      @title = title
       @feed_url = feed_url
       @icon_url = icon_url
+      @blog_url = blog_url
     end
   end
 end
