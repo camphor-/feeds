@@ -1,6 +1,6 @@
 require 'webrick'
 
 WEBrick::HTTPServer.new(
-  DocumentRoot: './dist',
+  DocumentRoot: ARGV[0],
   Port: 9292
 ).start

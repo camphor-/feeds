@@ -7,6 +7,9 @@ GEM
       temple (>= 0.8.0)
       tilt
     method_source (0.9.2)
+    mini_portile2 (2.4.0)
+    nokogiri (1.10.1)
+      mini_portile2 (~> 2.4.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -19,6 +22,7 @@ PLATFORMS
 DEPENDENCIES
   dotenv
   haml
+  nokogiri
   pry
 
 BUNDLED WITH
