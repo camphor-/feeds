@@ -3,7 +3,7 @@ require 'faraday'
 require 'faraday_middleware'
 
 class Crawler
-  Entry = Struct.new(:entry_url, :title, :abstract, :published_at)
+  Entry = Struct.new(:entry_url, :title, :abstract, :icon_url, :published_at)
 
   def initialize(feed_url)
     @feed_url = feed_url
@@ -18,7 +18,7 @@ class Crawler
     end
     response = conn.get
 
-    puts "status:#{response.status}\turl:#{@feed_url}"
+    STDERR.puts "status:#{response.status}\turl:#{@feed_url}"
     if response.status != 200
       return
     end
@@ -32,6 +32,7 @@ class Crawler
           item.link,
           item.title,
           item.description,
+          item.enclosure.url,
           item.date
         )
       end
@@ -41,6 +42,7 @@ class Crawler
           item.link.href,
           item.title.content,
           item.summary.content,
+          item.links.find { |link| link.rel == 'enclosure' }&.href,
           item.published.content
         )
       end
