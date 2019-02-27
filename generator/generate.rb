@@ -8,27 +8,14 @@ require 'time'
 Dotenv.load('.env.development')
 
 module View
-  class Entry
-    attr_reader :entry_url, :title
-
-    def initialize(entry_url, title, abstract_html, icon_url, published_at)
-      @entry_url = entry_url
-      @title = title
-      @abstract_html = abstract_html
-      @icon_url = icon_url
-      @published_at = published_at
-    end
-
+  class Entry < Struct.new(:entry_url, :title, :abstract_html, :icon_url, :published_at)
     def abstract
       Nokogiri::HTML(@abstract_html).text
     end
 
-    def icon_url
-      @icon_url
-    end
-
+    alias :old_published_at :published_at
     def published_at
-      @published_at.strftime('%Y-%m-%d %H:%M')
+      old_published_at.strftime('%Y-%m-%d %H:%M')
     end
   end
 
@@ -64,5 +51,8 @@ end.sort_by(&:published_at).reverse.first(ENTRY_COUNT)
 FileUtils.rm_r(OUTPUT_DIR) if File.exist?(OUTPUT_DIR)
 Dir.mkdir(OUTPUT_DIR)
 result = Haml::Engine.new(File.read(TEMPLATE_PATH)).render(Object.new, entries: entries)
-output_path = File.join(OUTPUT_DIR, 'index.html')
-File.write(output_path, result)
+html_path = File.join(OUTPUT_DIR, 'index.html')
+File.write(html_path, result)
+
+json_path = File.join(OUTPUT_DIR, 'feeds.json')
+File.write(json_path, JSON.dump(entries.map(&:to_h)))

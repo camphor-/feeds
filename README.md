@@ -29,4 +29,5 @@ feed_url = "https://dawn.hateblo.jp/rss"
 ```
 $ ./build.sh
 $ open dist/index.html
+$ cat dist/feeds.json
 ```
