@@ -55,11 +55,11 @@ class Crawler
   end
 end
 
-FEEDS_TOML = File.join(File.dirname(__FILE__), 'feeds.toml').freeze
+toml_string = $stdin.read
+feeds = TomlRB.parse(toml_string, symbolize_keys: true)
 
 entries = Queue.new
 pool = Concurrent::FixedThreadPool.new(10, auto_terminate: false)
-feeds = TomlRB.load_file(FEEDS_TOML, symbolize_keys: true)
 feeds.each do |username, feed|
   pool.post do
     Crawler.new(feed[:feed_url]).crawl.each do |entry|

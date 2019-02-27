@@ -1,6 +1,6 @@
 #!/bin/bash
 cd crawler
-bundle exec ruby crawl.rb > ../entries.json
+cat feeds.toml | bundle exec ruby crawl.rb > ../entries.json
 cd ..
 
 cd generator
