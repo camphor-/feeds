@@ -1,3 +1,4 @@
+#!/bin/usr/env ruby
 require 'nokogiri'
 require 'dotenv/load'
 require 'haml'
@@ -37,13 +38,10 @@ module View
   end
 end
 
-OUTPUT_DIR = File.join(File.dirname(__FILE__), ARGV[0]).freeze
-TEMPLATE_PATH = File.join(File.dirname(__FILE__), 'templates', 'index.haml').freeze
-ICON_DIR = File.join(File.dirname(__FILE__), 'icons').freeze
 ENTRY_COUNT = 50.freeze
 
-json_string = STDIN.read
-entries = JSON.parse(json_string)['entries'].map do |e|
+entries_json_string = STDIN.read
+entries = JSON.parse(entries_json_string)['entries'].map do |e|
   View::Entry.new(
     e['entry_url'],
     e['title'],
@@ -53,11 +51,4 @@ entries = JSON.parse(json_string)['entries'].map do |e|
   )
 end.sort_by(&:published_at).reverse.first(ENTRY_COUNT)
 
-FileUtils.rm_r(OUTPUT_DIR) if File.exist?(OUTPUT_DIR)
-Dir.mkdir(OUTPUT_DIR)
-result = Haml::Engine.new(File.read(TEMPLATE_PATH)).render(Object.new, entries: entries)
-html_path = File.join(OUTPUT_DIR, 'index.html')
-File.write(html_path, result)
-
-json_path = File.join(OUTPUT_DIR, 'feeds.json')
-File.write(json_path, JSON.dump(entries.map(&:to_h)))
+puts JSON.dump(entries.map(&:to_h))
