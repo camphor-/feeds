@@ -10,12 +10,17 @@ Dotenv.load('.env.development')
 module View
   class Entry < Struct.new(:entry_url, :title, :abstract_html, :icon_url, :published_at)
     def abstract
-      Nokogiri::HTML(@abstract_html).text
+      Nokogiri::HTML(self.abstract_html).text
     end
 
     alias :old_published_at :published_at
     def published_at
       old_published_at.strftime('%Y-%m-%d %H:%M')
+    end
+
+    alias :old_to_h :to_h
+    def to_h
+      old_to_h.merge(abstract: self.abstract, published_at: self.published_at)
     end
   end
 
