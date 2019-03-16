@@ -4,9 +4,6 @@ feed_url = "https://dawn.hateblo.jp/feed"
 [shiba6v]
 feed_url = "http://shiba6v.hatenablog.com/feed"
 
-[camphor]
-feed_url = "https://blog.camph.net/feed/"
-
 [camphor-tech]
 feed_url = "https://tech.camph.net/feed/"
 
