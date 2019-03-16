@@ -1,20 +1,8 @@
-[lotz]
-feed_url = "https://lotz84.hatenablog.com/rss"
-
 [genya0407]
 feed_url = "https://dawn.hateblo.jp/feed"
 
-[ishiy]
-feed_url = "https://www.ishiy.xyz/atom.xml"
-
-[marty]
-feed_url = "https://skstmrty.hatenablog.com/feed"
-
 [shiba6v]
 feed_url = "http://shiba6v.hatenablog.com/feed"
-
-[ymyzk]
-feed_url = "https://blog.ymyzk.com/feed/"
 
 [camphor]
 feed_url = "https://blog.camph.net/feed/"
@@ -22,20 +10,8 @@ feed_url = "https://blog.camph.net/feed/"
 [camphor-tech]
 feed_url = "https://tech.camph.net/feed/"
 
-[kojiAomatsu]
-feed_url = "https://it1.jp/?feed=rss2"
+[tomoyat1]
+feed_url = "https://blog.tomoyat1.com/rss"
 
-[morishin]
-feed_url = "https://morishin.hatenablog.com/rss"
-
-[tanishiking]
-feed_url = "https://tanishiking24.hatenablog.com/rss"
-
-[andoshin11]
-feed_url = "https://studio-andy.hatenablog.com/rss"
-
-[yu-i9]
-feed_url = "https://yu-i9.hatenablog.com/rss"
-
-[ryota-ka]
-feed_url = "https://ryota-ka.hatenablog.com/rss"
+[dora1998]
+feed_url = "http://dorapocket.starfree.jp/feed/"
