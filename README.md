@@ -2,7 +2,7 @@
 
 複数のRSS/Atomフィードを合成し，1つのJSONファイルにまとめる．
 
-## How to generate html
+## How to generate json
 
 ### Create feeds.toml
 
