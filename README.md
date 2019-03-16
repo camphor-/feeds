@@ -1,6 +1,6 @@
 ## Feeds
 
-複数のRSS/Atomフィードを合成し，1つのWebページにまとめて表示する．
+複数のRSS/Atomフィードを合成し，1つのJSONファイルにまとめる．
 
 ## How to generate html
 
@@ -24,11 +24,7 @@ feed_url = "https://dawn.hateblo.jp/rss"
 
 ### Build html
 
-`build.sh` を実行すると，Webサイトが生成される．
-
 ```
-$ ./build.sh
-$ open dist/index.html
-$ cat dist/feeds.json
+$ cat feeds.toml | bundle exec ruby crawl.rb | bundle exec ruby generate.rb > dist/feeds.json
 ```
 
