@@ -1,12 +1,8 @@
 #!/bin/usr/env ruby
 require 'nokogiri'
-require 'dotenv/load'
-require 'haml'
 require 'fileutils'
 require 'json'
 require 'time'
-
-Dotenv.load('.env.development')
 
 module View
   class Entry < Struct.new(:entry_url, :title, :abstract_html, :icon_url, :published_at)
