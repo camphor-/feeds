@@ -22,7 +22,7 @@ feed_url = "https://dawn.hateblo.jp/feed"
 feed_url = "https://dawn.hateblo.jp/rss"
 ```
 
-### Build html
+### Build json
 
 ```
 $ cat feeds.toml | bundle exec ruby crawl.rb | bundle exec ruby generate.rb > dist/feeds.json
