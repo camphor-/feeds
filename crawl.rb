@@ -2,7 +2,6 @@
 require 'rss'
 require 'faraday'
 require 'faraday_middleware'
-require 'concurrent'
 require 'json'
 require 'toml-rb'
 
@@ -36,7 +35,7 @@ class Crawler
           item.link,
           item.title,
           item.description,
-          item.enclosure.url,
+          item.enclosure&.url,
           item.date
         )
       end
@@ -59,17 +58,5 @@ end
 toml_string = $stdin.read
 feeds = TomlRB.parse(toml_string, symbolize_keys: true)
 
-entries = Queue.new
-pool = Concurrent::FixedThreadPool.new(10, auto_terminate: false)
-feeds.each do |username, feed|
-  pool.post do
-    Crawler.new(feed[:feed_url]).crawl.each do |entry|
-      entries.push(entry)
-    end
-  end
-end
-pool.shutdown
-pool.wait_for_termination
-
-entries = Array.new(entries.size) { entries.pop.to_h }
+entries = feeds.map {|username, feed| Crawler.new(feed[:feed_url]).crawl }.flatten.map(&:to_h)
 puts({entries: entries}.to_json)
