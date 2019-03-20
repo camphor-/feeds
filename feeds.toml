@@ -24,3 +24,6 @@ feed_url = "https://ataran.hatenablog.com/feed"
 
 [yu-i9]
 feed_url = "http://yu-i9.hatenablog.com/feed"
+
+[plus_kyoto]
+feed_url = "https://blog-api.naoki.dev/rss"
