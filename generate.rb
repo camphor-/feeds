@@ -7,6 +7,16 @@ require 'pp'
 
 module View
   class Entry < Struct.new(:entry_url, :title, :abstract_html, :icon_url, :published_at)
+    def initialize(*args)
+      {'entry_url': 0,  'title': 1, 'abstract_html': 2, 'published_at': 4}.each do |k, v|
+        if args[v].nil?
+          STDERR.puts "#{k}がありません:"
+          raise ArgumentError
+        end
+      end
+      args[4] = Time.parse(args[4])
+      super(*args)
+    end
     def abstract
       Nokogiri::HTML(self.abstract_html).text
     end
@@ -39,20 +49,18 @@ ENTRY_COUNT = 50.freeze
 
 entries_json_string = STDIN.read
 entries = JSON.parse(entries_json_string)['entries'].map do |e|
-  %w(entry_url title abstract).each do |k|
-    if e[k].nil?
-      STDERR.puts "#{k}がありません:"
-      STDERR.puts "#{e.pretty_inspect}"
-      exit(status=1)
-    end
+  begin
+    View::Entry.new(
+      e['entry_url'],
+      e['title'],
+      e['abstract'],
+      e['icon_url'],
+      e['published_at']
+    )
+  rescue ArgumentError
+    STDERR.puts "#{e.pretty_inspect}"
+    exit(status=1)
   end
-  View::Entry.new(
-    e['entry_url'],
-    e['title'],
-    e['abstract'],
-    e['icon_url'],
-    Time.parse(e['published_at'])
-  )
 end.sort_by(&:published_at).reverse.first(ENTRY_COUNT)
 
 puts JSON.dump(entries.map(&:to_h))
