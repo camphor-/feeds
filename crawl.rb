@@ -58,5 +58,5 @@ end
 toml_string = $stdin.read
 feeds = TomlRB.parse(toml_string, symbolize_keys: true)
 
-entries = feeds.map {|username, feed| Crawler.new(feed[:feed_url]).crawl }.flatten.map(&:to_h)
+entries = feeds.map {|username, feed| Crawler.new(feed[:feed_url]).crawl }.flatten.map(&:to_h).select {|a| !a.empty?}
 puts({entries: entries}.to_json)
