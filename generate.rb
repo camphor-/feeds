@@ -3,9 +3,30 @@ require 'nokogiri'
 require 'fileutils'
 require 'json'
 require 'time'
+require 'pp'
 
 module View
   class Entry < Struct.new(:entry_url, :title, :abstract_html, :icon_url, :published_at)
+    def initialize(entry_url, title, abstract_html, icon_url, published_at)
+      if entry_url.nil?
+        STDERR.puts 'entry_urlがありません:'
+        raise ArgumentError
+      end
+      if title.nil?
+        STDERR.puts 'titleがありません:'
+        raise ArgumentError
+      end
+      if abstract_html.nil?
+        STDERR.puts 'abstract_htmlがありません:'
+        raise ArgumentError
+      end
+      if published_at.nil?
+        STDERR.puts 'published_atがありません:'
+        raise ArgumentError
+      end
+      super(entry_url, title, abstract_html, icon_url, Time.parse(published_at))
+    end
+
     def abstract
       Nokogiri::HTML(self.abstract_html).text
     end
@@ -38,13 +59,18 @@ ENTRY_COUNT = 50.freeze
 
 entries_json_string = STDIN.read
 entries = JSON.parse(entries_json_string)['entries'].map do |e|
-  View::Entry.new(
-    e['entry_url'],
-    e['title'],
-    e['abstract'],
-    e['icon_url'],
-    Time.parse(e['published_at'])
-  )
+  begin
+    View::Entry.new(
+      e['entry_url'],
+      e['title'],
+      e['abstract'],
+      e['icon_url'],
+      e['published_at']
+    )
+  rescue ArgumentError
+    STDERR.puts "#{e.pretty_inspect}"
+    exit(status=1)
+  end
 end.sort_by(&:published_at).reverse.first(ENTRY_COUNT)
 
 puts JSON.dump(entries.map(&:to_h))
