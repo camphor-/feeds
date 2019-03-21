@@ -3,6 +3,7 @@ require 'nokogiri'
 require 'fileutils'
 require 'json'
 require 'time'
+require 'pp'
 
 module View
   class Entry < Struct.new(:entry_url, :title, :abstract_html, :icon_url, :published_at)
@@ -38,6 +39,13 @@ ENTRY_COUNT = 50.freeze
 
 entries_json_string = STDIN.read
 entries = JSON.parse(entries_json_string)['entries'].map do |e|
+  %w(entry_url title abstract).each do |k|
+    if e[k].nil?
+      STDERR.puts "#{k}がありません:"
+      STDERR.puts "#{e.pretty_inspect}"
+      exit(status=1)
+    end
+  end
   View::Entry.new(
     e['entry_url'],
     e['title'],
