@@ -7,16 +7,26 @@ require 'pp'
 
 module View
   class Entry < Struct.new(:entry_url, :title, :abstract_html, :icon_url, :published_at)
-    def initialize(*args)
-      {'entry_url': 0,  'title': 1, 'abstract_html': 2, 'published_at': 4}.each do |k, v|
-        if args[v].nil?
-          STDERR.puts "#{k}がありません:"
-          raise ArgumentError
-        end
+    def initialize(entry_url, title, abstract_html, icon_url, published_at)
+      if entry_url.nil?
+        STDERR.puts 'entry_urlがありません:'
+        raise ArgumentError
       end
-      args[4] = Time.parse(args[4])
-      super(*args)
+      if title.nil?
+        STDERR.puts 'titleがありません:'
+        raise ArgumentError
+      end
+      if abstract_html.nil?
+        STDERR.puts 'abstract_htmlがありません:'
+        raise ArgumentError
+      end
+      if published_at.nil?
+        STDERR.puts 'published_atがありません:'
+        raise ArgumentError
+      end
+      super(entry_url, title, abstract_html, icon_url, Time.parse(published_at))
     end
+
     def abstract
       Nokogiri::HTML(self.abstract_html).text
     end
