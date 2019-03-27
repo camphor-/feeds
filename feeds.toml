@@ -1,6 +1,3 @@
-[genya0407]
-feed_url = "https://dawn.hateblo.jp/feed"
-
 [shiba6v]
 feed_url = "http://shiba6v.hatenablog.com/feed"
 
@@ -21,9 +18,6 @@ feed_url = "https://blog.kmconner.net/rss"
 
 [aratasato]
 feed_url = "https://ataran.hatenablog.com/feed"
-
-[yu-i9]
-feed_url = "http://yu-i9.hatenablog.com/feed"
 
 [plus_kyoto]
 feed_url = "https://blog-api.naoki.dev/rss"
