@@ -44,7 +44,7 @@ class Crawler
         Entry.new(
           item.link.href,
           item.title.content,
-          item.content.content,
+          item.summary&.content || item.content.content,
           item.links.find { |link| link.rel == 'enclosure' }&.href,
           item.published.content
         )
