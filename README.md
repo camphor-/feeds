@@ -23,7 +23,7 @@ $ bundle install --path vendor/bundle
 $ cat feeds.toml | bundle exec ruby crawl.rb | bundle exec ruby generate.rb > dist/feeds.json
 ```
 
-#### With [docker image](https://cloud.docker.com/u/camphor/repository/docker/camphor/feeds)
+#### With [docker image](https://hub.docker.com/r/camphor/feeds)
 ```
 $ docker run \
     -v $PWD/feeds.toml:/apps/feeds.toml:ro \
