@@ -26,7 +26,7 @@ class Crawler
       return
     end
 
-    feed = RSS::Parser.parse(response.body)
+    feed = RSS::Parser.parse(response.body, false)
 
     case feed
     when RSS::Rss
@@ -44,7 +44,7 @@ class Crawler
         Entry.new(
           item.link.href,
           item.title.content,
-          item.summary.content,
+          item.content.content,
           item.links.find { |link| link.rel == 'enclosure' }&.href,
           item.published.content
         )
