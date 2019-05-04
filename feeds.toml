@@ -8,7 +8,7 @@ feed_url = "https://tech.camph.net/feed/"
 feed_url = "https://blog.tomoyat1.com/rss"
 
 [dora1998]
-feed_url = "http://dorapocket.starfree.jp/feed/"
+feed_url = "https://feed-api.minoru.dev/rss"
 
 [marty954]
 feed_url = "http://skstmrty.hatenablog.com/feed"
