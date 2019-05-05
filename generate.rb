@@ -16,10 +16,6 @@ module View
         STDERR.puts 'titleがありません:'
         raise ArgumentError
       end
-      if abstract_html.nil?
-        STDERR.puts 'abstract_htmlがありません:'
-        raise ArgumentError
-      end
       if published_at.nil?
         STDERR.puts 'published_atがありません:'
         raise ArgumentError
@@ -28,7 +24,9 @@ module View
     end
 
     def abstract
-      Nokogiri::HTML(self.abstract_html).text
+      unless self.abstract_html.nil?
+        Nokogiri::HTML(self.abstract_html).text
+      end
     end
 
     alias :old_published_at :published_at
