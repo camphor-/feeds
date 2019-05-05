@@ -49,6 +49,16 @@ class Crawler
           item.published.content
         )
       end
+    when RSS::RDF
+      feed.items.map do |item|
+        Entry.new(
+          item.link,
+          item.title,
+          item.description,
+          feed.channel.image&.resource, # NOTE: 画像付きのRSS1.0のフィードを見つけられなかったので動作未検証
+          item.date
+        )
+      end
     else
       puts "Unsupported feed type: #{feed.class} from #{@feed_url}"
     end
