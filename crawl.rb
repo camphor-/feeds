@@ -49,6 +49,16 @@ class Crawler
           item.published.content
         )
       end
+    when RSS::RDF
+      feed.items.map do |item|
+        Entry.new(
+          item.link,
+          item.title,
+          item.description,
+          item.channel.image&.resource,
+          item.date
+        )
+      end
     else
       puts "Unsupported feed type: #{feed.class} from #{@feed_url}"
     end
