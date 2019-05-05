@@ -55,7 +55,7 @@ class Crawler
           item.link,
           item.title,
           item.description,
-          item.channel.image&.resource,
+          item.channel.image&.resource, # NOTE: 画像付きのRSS1.0のフィードを見つけられなかったので動作未検証
           item.date
         )
       end
