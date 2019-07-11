@@ -21,3 +21,6 @@ feed_url = "https://ataran.hatenablog.com/feed"
 
 [plus_kyoto]
 feed_url = "https://blog-api.naoki.dev/rss"
+
+[honai]
+feed_url = "https://honai.me/rss"
