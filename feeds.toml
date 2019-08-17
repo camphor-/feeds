@@ -4,6 +4,9 @@ feed_url = "http://shiba6v.hatenablog.com/feed"
 [camphor-tech]
 feed_url = "https://tech.camph.net/feed/"
 
+[camphor-blog]
+feed_url = "https://blog.camph.net/feeds/"
+
 [tomoyat1]
 feed_url = "https://blog.tomoyat1.com/rss"
 
