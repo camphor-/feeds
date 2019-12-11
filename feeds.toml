@@ -23,4 +23,4 @@ feed_url = "https://ataran.hatenablog.com/feed"
 feed_url = "https://blog-api.naoki.dev/rss"
 
 [honai]
-feed_url = "https://honai.me/rss"
+feed_url = "https://blog.honai.me/rss.xml"
