@@ -13,9 +13,6 @@ feed_url = "https://blog.tomoyat1.com/rss"
 [dora1998]
 feed_url = "https://feed-api.minoru.dev/rss"
 
-[marty954]
-feed_url = "http://skstmrty.hatenablog.com/feed"
-
 [KMConner]
 feed_url = "https://blog.kmconner.net/rss"
 
