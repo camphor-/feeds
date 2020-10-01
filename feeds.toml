@@ -23,4 +23,4 @@ feed_url = "https://blog-api.p1ass.com/rss"
 feed_url = "https://blog.honai.me/rss.xml"
 
 [sanpo_shiho]
-feed_url = "https://sanposhiho.hatenablog.com/feed"
+feed_url = "https://sanposhiho.com/index.xml"
