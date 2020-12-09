@@ -13,8 +13,8 @@ feed_url = "https://feed-api.minoru.dev/rss"
 [KMConner]
 feed_url = "https://blog.kmconner.net/rss"
 
-[aratasato]
-feed_url = "https://ataran.hatenablog.com/feed"
+[atrn0]
+feed_url = "https://atrn0.github.io/index.xml"
 
 [p1ass]
 feed_url = "https://blog-api.p1ass.com/rss"
