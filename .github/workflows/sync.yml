@@ -1,8 +1,8 @@
 name: Sync
 
 on:
-  push:
-    # branches: [master]
+  schedule:
+    - cron: "0 15 * 11,12 *" # 00:00 JST in November and December (15:00 UTC)
 
 jobs:
   sync:
