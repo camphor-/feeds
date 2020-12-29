@@ -2,7 +2,7 @@ name: Sync
 
 on:
   push:
-    branches: [master]
+    # branches: [master]
 
 jobs:
   sync:
@@ -25,8 +25,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Build feeds.json
         run: |
-          docker pull registry.camph.net/feeds:v0.1.0
-          docker run --rm -v $PWD/feeds.toml:/apps/feeds.toml:ro -v $PWD/dist:/apps/dist registry.camph.net/feeds:v0.1.0
+          docker pull registry.camph.net/feeds:latest
+          docker run --rm -v $PWD/feeds.toml:/apps/feeds.toml:ro -v $PWD/dist:/apps/dist registry.camph.net/feeds:latest
       - name: rsync feeds.json
         run: rsync $PWD/dist/feeds.json -e "ssh -p ${{ secrets.KONOE_SSH_PORT }}" ${{ secrets.KONOE_SSH_USERNAME }}@${{ secrets.KONOE_SSH_HOST }}:/home/deploy/feeds/www/public/feeds.json
       - name: Notify to Slack
