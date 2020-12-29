@@ -1,0 +1,36 @@
+name: Sync
+
+on:
+  schedule:
+    - cron: "0 15 * 11,12 *" # 00:00 JST in November and December (15:00 UTC)
+
+jobs:
+  sync:
+    name: Sync feeds
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.KONOE_SSH_KEY }}
+          name: id_rsa
+          known_hosts: ${{ secrets.KONOE_KNOWN_HOSTS }}
+      - name: Login to Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: registry.camph.net
+          username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+          password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: Build feeds.json
+        run: |
+          docker pull registry.camph.net/feeds:latest
+          docker run --rm -v $PWD/feeds.toml:/apps/feeds.toml:ro -v $PWD/dist:/apps/dist registry.camph.net/feeds:latest
+      - name: rsync feeds.json
+        run: rsync $PWD/dist/feeds.json -e "ssh -p ${{ secrets.KONOE_SSH_PORT }}" ${{ secrets.KONOE_SSH_USERNAME }}@${{ secrets.KONOE_SSH_HOST }}:/home/deploy/feeds/www/public/feeds.json
+      - name: Notify to Slack
+        uses: craftech-io/slack-action@v1
+        with:
+          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
