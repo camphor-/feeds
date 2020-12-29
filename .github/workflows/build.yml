@@ -2,7 +2,7 @@ name: Build and Push to registry
 
 on:
   push:
-    branches: [master]
+    # branches: [master]
 
 jobs:
   build:
