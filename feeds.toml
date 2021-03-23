@@ -7,17 +7,11 @@ feed_url = "https://tech.camph.net/feed/"
 [camphor-blog]
 feed_url = "https://blog.camph.net/feed/"
 
-[dora1998]
-feed_url = "https://feed-api.minoru.dev/rss"
-
 [KMConner]
 feed_url = "https://blog.kmconner.net/rss"
 
 [atrn0]
 feed_url = "https://atrn0.github.io/index.xml"
-
-[p1ass]
-feed_url = "https://blog-api.p1ass.com/rss"
 
 [honai]
 feed_url = "https://blog.honai.me/rss.xml"
