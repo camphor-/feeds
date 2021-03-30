@@ -8,7 +8,7 @@ feed_url = "https://tech.camph.net/feed/"
 feed_url = "https://blog.camph.net/feed/"
 
 [KMConner]
-feed_url = "kmconner.net/index.xml"
+feed_url = "https://kmconner.net/index.xml"
 
 [atrn0]
 feed_url = "https://atrn0.github.io/index.xml"
