@@ -19,5 +19,8 @@ feed_url = "https://blog.honai.me/rss.xml"
 [sanpo_shiho]
 feed_url = "https://sanposhiho.com/index.xml"
 
+[sanpo_shiho]
+feed_url = "https://zenn.dev/sanpo_shiho/feed"
+
 [panorama]
 feed_url = "https://qiita.com/panorama_mbp/feed"
