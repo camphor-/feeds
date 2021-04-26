@@ -14,7 +14,7 @@ feed_url = "https://kmconner.net/index.xml"
 feed_url = "https://atrn0.github.io/index.xml"
 
 [honai]
-feed_url = "https://blog.honai.me/rss.xml"
+feed_url = "https://www.honai.me/blog/rss.xml"
 
 [sanpo_shiho]
 feed_url = "https://sanposhiho.com/index.xml"
