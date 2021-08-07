@@ -65,8 +65,6 @@ class Crawler
   end
 end
 
-raise # CircleCI がちゃんと落ちるかチェック
-
 toml_string = $stdin.read
 feeds = TomlRB.parse(toml_string, symbolize_keys: true)
 
