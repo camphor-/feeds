@@ -8,6 +8,7 @@ jobs:
   sync:
     name: Sync feeds
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
