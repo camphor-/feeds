@@ -21,3 +21,6 @@ feed_url = "https://sanposhiho.com/index.xml"
 
 [panorama]
 feed_url = "https://qiita.com/panorama_mbp/feed"
+
+[Saza]
+feed_url = "https://qiita.com/Saza-ku"
