@@ -1,23 +1,11 @@
-[shiba6v]
-feed_url = "http://shiba6v.hatenablog.com/feed"
-
 [camphor-tech]
 feed_url = "https://tech.camph.net/feed/"
 
 [camphor-blog]
 feed_url = "https://blog.camph.net/feed/"
 
-[KMConner]
-feed_url = "https://kmconner.net/index.xml"
-
-[atrn0]
-feed_url = "https://atrn0.github.io/index.xml"
-
 [honai]
 feed_url = "https://www.honai.me/blog/rss.xml"
-
-[sanpo_shiho]
-feed_url = "https://sanposhiho.com/index.xml"
 
 [panorama]
 feed_url = "https://qiita.com/panorama_mbp/feed"
