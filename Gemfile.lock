@@ -3,7 +3,7 @@ GEM
   specs:
     citrus (3.0.2)
     coderay (1.1.2)
-    dotenv (2.7.6)
+    dotenv (2.8.1)
     faraday (1.10.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
