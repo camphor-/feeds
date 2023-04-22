@@ -4,5 +4,8 @@ feed_url = "https://tech.camph.net/feed/"
 [camphor-blog]
 feed_url = "https://blog.camph.net/feed/"
 
-[Saza]
+[saza-qiita]
 feed_url = "https://qiita.com/Saza-ku/feed"
+
+[saza-hatena]
+feed-url = "https://saza.hatenadiary.jp/rss"
