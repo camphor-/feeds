@@ -4,11 +4,5 @@ feed_url = "https://tech.camph.net/feed/"
 [camphor-blog]
 feed_url = "https://blog.camph.net/feed/"
 
-[honai]
-feed_url = "https://www.honai.me/blog/rss.xml"
-
-[panorama]
-feed_url = "https://qiita.com/panorama_mbp/feed"
-
 [Saza]
 feed_url = "https://qiita.com/Saza-ku/feed"
