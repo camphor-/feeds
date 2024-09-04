@@ -8,4 +8,7 @@ feed_url = "https://blog.camph.net/feed/"
 feed_url = "https://qiita.com/Saza-ku/feed"
 
 [saza-hatena]
-feed-url = "https://saza.hatenadiary.jp/rss"
+feed_url = "https://saza.hatenadiary.jp/rss"
+
+[saza-sakura]
+feed_url = "https://knowledge.sakura.ad.jp/author/soichiro_ueda/feed"
