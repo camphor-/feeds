@@ -9,7 +9,7 @@ COPY ./Gemfile ./Gemfile.lock ./
 
 COPY ./crawl.rb ./generate.rb ./
 
-RUN gem install bundler
+RUN gem install bundler -v 2.4.22
 RUN bundle install --path vendor/bundle
 
 CMD ["sh", "-c", "cat feeds.toml | bundle exec ruby crawl.rb | bundle exec ruby generate.rb > dist/feeds.json"]
